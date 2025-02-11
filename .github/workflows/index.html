@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK SHOPY</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to SK SHOPEE</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#seller">Seller Portal</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="home">
+            <h2>Home</h2>
+            <p>Welcome to SK SHOPEE, A Reliable shop for costumer and seller</br>
+                where each can exchage their prouduct and sell that .</p>
+        </section>
+        <section id="seller">
+            <h2>Seller Portal</h2>
+            <p>Post your product details here:</p>
+            <form id="product-form" action="/submit_product" method="post" enctype="multipart/form-data">
+                <label for="product_name">Product Name:</label>
+                <input type="text" id="product_name" name="product_name" required><br><br>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+                
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required><br><br>
+                
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required><br><br>
+                
+                <label for="currency">Currency:</label>
+                <select id="currency" name="currency" required>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="INR">INR</option>
+                    <!-- Add more currencies as needed -->
+                </select><br><br>
+                
+                <label for="discount">Discount (%):</label>
+                <input type="number" id="discount" name="discount" step="0.01"><br><br>
+                
+                <label for="image">Product Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required><br><br>
+                
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+        <section id="products">
+            <h2>Products</h2>
+            <p>Check out our wide range of products.</p>
+            <div id="product-grid" class="grid-container">
+                <!-- Add product listings here -->
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Get in touch with us for any queries.</p>
+            <form action="/submit_contact" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+                
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required><br><br>
+                
+                <label for="note">Note:</label>
+                <textarea id="note" name="note" rows="4" cols="50" required></textarea><br><br>
+                
+                <input type="submit" value="Submit">
+            </form>
+            <div class="contact-person">
+                <h3>Contact Person:</h3>
+                <p>Name: Subham Kumar Maharana</p>
+                <p>Mobile: 7854034218</p>
+                <p>Email: <a href="mailto:subhammaharana362@gmail.com">subhammaharana362@gmail.com</a></p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2018 SK GROUP, All right resreved </p>
+    </footer>
+    <script>
+        document.getElementById('product-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const productName = document.getElementById('product_name').value;
+            const description = document.getElementById('description').value;
+            const quantity = document.getElementById('quantity').value;
+            const price = document.getElementById('price').value;
+            const currency = document.getElementById('currency').value;
+            const discount = document.getElementById('discount').value;
+            const image = document.getElementById('image').files[0];
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const productGrid = document.getElementById('product-grid');
+                const productItem = document.createElement('div');
+                productItem.classList.add('grid-item');
+                productItem.innerHTML = `
+                    <h3>${productName}</h3>
+                    <p>${description}</p>
+                    <p>Quantity: ${quantity}</p>
+                    <p>Price: ${currency} ${price}</p>
+                    <p>Discount: ${discount}%</p>
+                    <img src="${e.target.result}" alt="${productName}" style="max-width: 100%;">
+                `;
+                productGrid.appendChild(productItem);
+
+                // Clear the form
+                document.getElementById('product-form').reset();
+            };
+            reader.readAsDataURL(image);
+        });
+    </script>
+</body>
+</html>
